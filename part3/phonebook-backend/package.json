@@ -6,12 +6,14 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "build:ui": "rm -rf build && cd ../../../fullstack-exercises/part2/phonebook && npm run build --prod && cp -r build ../../../fullstack-backend/part3/phonebook-backend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "4.17.1"
+    "express": "4.17.1",
+    "mongoose": "5.11.18"
   },
   "devDependencies": {
     "morgan": "1.10.0",
