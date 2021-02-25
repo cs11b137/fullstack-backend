@@ -1,8 +1,10 @@
+require('dotenv').config();
 const { static } = require('express');
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
+const Person = require('./models/person');
 const app = express();
-const PORT = 3001;
 
 let persons = [
 	{
@@ -27,16 +29,25 @@ let persons = [
 	}
 ];
 
-morgan.token('req-content', (req, res) => JSON.stringify(req.body));
+morgan.token('req-content', (req, res) => {
+    if (req.method === 'POST') {
+        return JSON.stringify(req.body)
+    }
+    return '';
+});
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :req-content'));
+
+app.use(cors());
 
 app.use(express.static('build'));
 
 app.use(express.json());
 
 app.get('/api/persons', (req, res) => {
-	res.json(persons);
+    Person.find({}).then(result => {
+        res.json(result);
+    });
 });
 
 app.get('/info', (req, res) => {
@@ -79,21 +90,17 @@ app.post('/api/persons', (req, res) => {
 		});
 	}
 
-	if (persons.map(p => p.name).includes(body.name)) {
-		return res.status(400).json({
-			error: 'name must be unique'
-		});
-	}
+	const person = new Person({
+        ...body
+    });
 
-	const person = {
-		...body,
-		id: Math.floor(Math.random() * 1000),
-	};
-
-	persons = persons.concat(person);
-	res.json(person);
+	person.save().then(result => {
+        res.json(result);
+    }).catch(error => {
+        console.log('error saving to MongoDB:', error);
+    });
 });
 
-app.listen(PORT, () => {
-	console.log(`Server running on ${PORT}`);
+app.listen(process.env.PORT, () => {
+	console.log(`Server running on ${process.env.PORT}`);
 });
