@@ -7,7 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "build:ui": "rm -rf build && cd ../../../fullstack-exercises/part2/phonebook && npm run build --prod && cp -r build ../../../fullstack-backend/part3/phonebook-backend",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -15,9 +16,11 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "4.17.1",
-    "mongoose": "5.11.18"
+    "mongoose": "5.11.18",
+    "mongoose-unique-validator": "2.0.3"
   },
   "devDependencies": {
+    "eslint": "7.20.0",
     "morgan": "1.10.0",
     "nodemon": "2.0.7"
   }
