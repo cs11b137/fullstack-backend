@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const _ = require('lodash'); 
+const _ = require('lodash');
 
 const dummy = (blogs) => {
     return 1;
@@ -21,8 +21,24 @@ const favoriteBlog = (blogs) => {
     return sortedBlogs[blogs.length - 1];
 };
 
+const mostBlogs = (blogs) => {
+    const authors = blogs.map(b => b.author);
+    const result = _.values(_.groupBy(authors)).map(a => {
+        return {
+            author: a[0],
+            blogs: a.length
+        };
+    });
+    
+    return result[result.length - 1];
+};
+
+const mostLikes = (blogs) => {};
+
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs,
+    mostLikes
 };
