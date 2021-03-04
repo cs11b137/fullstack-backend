@@ -14,7 +14,11 @@ const userSchema = new mongooese.Schema({
     passwordHash: {
         type: String,
         required: true
-    }
+    },
+    blogs: [{
+        type: mongooese.Schema.Types.ObjectId,
+        ref: 'Blog'
+    }]
 });
 
 userSchema.plugin(uniqueValidator);
