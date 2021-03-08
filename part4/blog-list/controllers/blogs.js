@@ -71,11 +71,9 @@ blogRouter.delete('/:id', async (req, res) => {
 });
 
 blogRouter.put('/:id', async (req, res) => {
-    const result = await Blog.findByIdAndUpdate(req.params.id, {
-        likes: req.body.likes
-    }, {
+    const result = await Blog.findByIdAndUpdate(req.params.id, req.body, {
         new: true
-    });
+    }).populate('user');
     res.json(result);
 });
 
